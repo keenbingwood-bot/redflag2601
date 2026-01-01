@@ -228,11 +228,6 @@ export default function Home() {
           })
         }
 
-        // 页脚
-        ctx.fillStyle = '#475569'
-        ctx.font = '24px Arial, sans-serif'
-        ctx.fillText('Analyzed by redflag.buzz • The TL;DR for Job Descriptions', 100, 600)
-
         dataUrl = canvas.toDataURL('image/png')
       } catch (canvasError) {
         console.error('Canvas drawing failed:', canvasError)
@@ -415,11 +410,6 @@ export default function Home() {
             currentY += 40  // 减少条目之间的间距
           })
         }
-
-        // 页脚
-        ctx.fillStyle = '#475569'
-        ctx.font = '24px Arial, sans-serif'
-        ctx.fillText('Analyzed by redflag.buzz • The TL;DR for Job Descriptions', 100, 600)
 
         dataUrl = canvas.toDataURL('image/png')
       } catch (canvasError) {
