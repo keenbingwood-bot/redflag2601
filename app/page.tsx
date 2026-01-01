@@ -562,15 +562,13 @@ export default function Home() {
 
             {result && (
               <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                <Button variant="outline" onClick={handleNewAnalysis} className="w-full sm:w-auto">
+                <Button variant="outline" onClick={handleNewAnalysis} className="w-full sm:w-auto min-w-[140px]">
                   Scan Another
                 </Button>
-                <Button variant="outline" onClick={handleDownloadImage} className="w-full sm:w-auto">
-                  <Download className="w-4 h-4 mr-2" />
+                <Button variant="outline" onClick={handleDownloadImage} className="w-full sm:w-auto min-w-[140px]">
                   Download Image
                 </Button>
-                <Button variant="default" onClick={handleShareOnX} className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white">
-                  <Share2 className="w-4 h-4 mr-2" />
+                <Button variant="default" onClick={handleShareOnX} className="w-full sm:w-auto min-w-[140px] bg-slate-900 hover:bg-slate-800 text-white">
                   share on X
                 </Button>
               </div>

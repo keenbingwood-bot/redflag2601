@@ -38,7 +38,8 @@
       "Bash(git commit:*)",
       "Bash(git pull:*)",
       "Bash(git fetch:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(DR for Job Descriptions\" footer text\n- Applied to both download image and share image functions\n- Cleaner image output without watermark\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []
