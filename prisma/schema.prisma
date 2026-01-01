@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model JobScan {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+
+  // Input Metadata
+  inputType   String     // "url" or "text"
+  sourceUrl   String?    // Optional, if URL was provided
+  content     String     @db.Text // The raw JD text
+
+  // Extracted Metadata (AI will extract these)
+  companyName String?    // e.g. "Tech Corp"
+  jobTitle    String?    // e.g. "Senior React Dev"
+
+  // Analysis Results
+  riskScore   Int        // 0-100 (100 = Safe, 0 = Risky)
+  summary     String     @db.Text
+  shareCopy   String?    // Short witty text for social sharing
+
+  // Relations
+  flags       RiskFlag[]
+}
+
+model RiskFlag {
+  id        String   @id @default(cuid())
+  scanId    String
+  scan      JobScan  @relation(fields: [scanId], references: [id])
+  severity  String   // "High", "Medium", "Low"
+  category  String   // "Culture", "Compensation", "Workload", "Management", "Stability"
+  quote     String   @db.Text // The exact phrase from the JD
+  reality   String   @db.Text // The AI interpretation of why it is a risk
+}
