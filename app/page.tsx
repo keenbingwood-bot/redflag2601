@@ -549,7 +549,11 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-6 h-6 text-slate-600" />
+                <img
+                  src="/favicon-32x32.png"
+                  alt="RedFlag.buzz"
+                  className="w-6 h-6"
+                />
                 <span className="text-sm font-medium text-slate-700">Job Description Risk Analysis</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
