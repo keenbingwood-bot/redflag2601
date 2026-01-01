@@ -35,9 +35,38 @@ export async function analyzeJobDescription(formData: FormData) {
     // Step 2: Analyze with AI
     const aiAnalysis = await analyzeJobDescriptionWithAI(jobDescriptionText)
 
-    // Step 3: Save to database
-    const jobScan = await prisma.jobScan.create({
-      data: {
+    // Step 3: Save to database (if available)
+    let jobScan = null
+    try {
+      jobScan = await prisma.jobScan.create({
+        data: {
+          inputType: validatedInput.type,
+          sourceUrl: validatedInput.type === 'url' ? validatedInput.input : null,
+          content: jobDescriptionText,
+          companyName: aiAnalysis.company_name,
+          jobTitle: aiAnalysis.job_title,
+          riskScore: aiAnalysis.overall_score,
+          summary: aiAnalysis.summary,
+          shareCopy: aiAnalysis.share_copy,
+          flags: {
+            create: aiAnalysis.red_flags.map(flag => ({
+              severity: flag.severity,
+              category: flag.category,
+              quote: flag.quote,
+              reality: flag.reality,
+            })),
+          },
+        },
+        include: {
+          flags: true,
+        },
+      })
+      console.log('Analysis saved to database')
+    } catch (dbError) {
+      console.warn('Database save failed, continuing without saving:', dbError)
+      // Create a mock jobScan object for response
+      jobScan = {
+        id: 'mock-' + Date.now(),
         inputType: validatedInput.type,
         sourceUrl: validatedInput.type === 'url' ? validatedInput.input : null,
         content: jobDescriptionText,
@@ -46,19 +75,15 @@ export async function analyzeJobDescription(formData: FormData) {
         riskScore: aiAnalysis.overall_score,
         summary: aiAnalysis.summary,
         shareCopy: aiAnalysis.share_copy,
-        flags: {
-          create: aiAnalysis.red_flags.map(flag => ({
-            severity: flag.severity,
-            category: flag.category,
-            quote: flag.quote,
-            reality: flag.reality,
-          })),
-        },
-      },
-      include: {
-        flags: true,
-      },
-    })
+        flags: aiAnalysis.red_flags.map(flag => ({
+          id: 'mock-flag-' + Date.now() + Math.random(),
+          severity: flag.severity,
+          category: flag.category,
+          quote: flag.quote,
+          reality: flag.reality,
+        })),
+      }
+    }
 
     // Revalidate cache if needed
     revalidatePath('/')
@@ -67,6 +92,7 @@ export async function analyzeJobDescription(formData: FormData) {
       success: true,
       data: jobScan,
       message: 'Job description analyzed successfully',
+      databaseSaved: jobScan.id.startsWith('mock-') ? false : true,
     }
   } catch (error) {
     console.error('Error analyzing job description:', error)
