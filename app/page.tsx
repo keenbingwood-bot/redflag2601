@@ -65,7 +65,7 @@ export default function Home() {
         // Convert severity strings to literal types
         const resultData: JobScanResult = {
           ...response.data,
-          flags: response.data.flags.map(flag => ({
+          flags: response.data.flags.map((flag: any) => ({
             ...flag,
             severity: flag.severity as 'High' | 'Medium' | 'Low'
           }))
