@@ -16,6 +16,7 @@ if (!fs.existsSync(appDir)) {
 // 定义要生成的尺寸
 const sizes = [
   { width: 16, height: 16, filename: 'favicon-16x16.png' },
+  { width: 24, height: 24, filename: 'favicon-24x24.png' }, // 专门用于页面标题
   { width: 32, height: 32, filename: 'favicon-32x32.png' },
   { width: 96, height: 96, filename: 'favicon-96x96.png' },
   { width: 180, height: 180, filename: 'favicon-180x180.png' },

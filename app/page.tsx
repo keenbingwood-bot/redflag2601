@@ -550,7 +550,7 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <img
-                  src="/favicon-32x32.png"
+                  src="/favicon-24x24.png"
                   alt="RedFlag.buzz"
                   className="w-6 h-6"
                 />
