@@ -570,13 +570,13 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8 md:py-16">
         {/* Header */}
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-            <div>
+          <div className="flex flex-col md:flex-row justify-between gap-6 mb-8">
+            <div className="flex-1">
               <HeroCarousel />
             </div>
 
             {result && (
-              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto items-end">
                 <Button variant="outline" onClick={handleNewAnalysis} className="w-full sm:w-auto min-w-[140px]">
                   Scan Another
                 </Button>
