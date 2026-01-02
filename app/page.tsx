@@ -584,8 +584,8 @@ export default function Home() {
             {/* Left Column - Input */}
             <div className="lg:col-span-3">
               {!result ? (
-                <Card className="min-h-[320px] md:min-h-[360px] flex flex-col">
-                  <CardContent className="flex flex-col flex-1 p-6">
+                <Card className="min-h-[320px] md:min-h-[360px] flex flex-col !pb-3">
+                  <CardContent className="flex flex-col flex-1 px-6 pt-6 pb-3">
                     <Tabs value={inputType} onValueChange={(v) => setInputType(v as 'url' | 'text')} className="flex flex-col flex-1">
                       <div className="flex justify-center mb-6">
                         <TabsList className="inline-flex h-9 items-center justify-center rounded-lg bg-slate-100 p-1 transition-colors duration-200 hover:bg-slate-200/80">
@@ -608,54 +608,89 @@ export default function Home() {
 
                       <TabsContent value="text" className="space-y-4 flex-1">
                         <div className="space-y-2 flex flex-col flex-1">
-                          <Textarea
-                            id="text"
-                            placeholder="Paste the full job description here..."
-                            value={textInput}
-                            onChange={(e) => setTextInput(e.target.value)}
-                            disabled={isLoading}
-                            rows={8}
-                            className="resize-none min-h-[200px] md:min-h-[240px] flex-1"
-                          />
+                          <div className="typewriter-textarea-container">
+                            <Textarea
+                              id="text"
+                              placeholder="Paste the full job description here..."
+                              value={textInput}
+                              onChange={(e) => setTextInput(e.target.value)}
+                              disabled={isLoading}
+                              rows={8}
+                              className="resize-none min-h-[200px] md:min-h-[240px] flex-1"
+                            />
+                            {textInput === '' && (
+                              <div className="typewriter-textarea-placeholder-text">
+                                Paste the full job description here...
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </TabsContent>
 
                       <TabsContent value="url" className="space-y-4 flex-1">
                         <div className="space-y-2 flex flex-col flex-1">
-                          <Input
-                            id="url"
-                            placeholder="https://linkedin.com/jobs/view/..."
-                            value={urlInput}
-                            onChange={(e) => setUrlInput(e.target.value)}
-                            disabled={isLoading}
-                          />
+                          <div className="typewriter-placeholder-container">
+                            <Input
+                              id="url"
+                              placeholder="https://linkedin.com/jobs/view/..."
+                              value={urlInput}
+                              onChange={(e) => setUrlInput(e.target.value)}
+                              disabled={isLoading}
+                              className="h-14"
+                            />
+                            {urlInput === '' && (
+                              <div className="typewriter-placeholder-text">
+                                https://linkedin.com/jobs/view/...
+                              </div>
+                            )}
+                          </div>
 
                           {/* Supported Platforms - Subtle Trust Signals */}
                           <div className="pt-2 mt-3">
-                            <div className="flex items-center justify-center gap-1.5">
+                            <div className="flex items-center justify-center gap-2">
                               {/* LinkedIn */}
-                              <div className="w-3 h-3 flex items-center justify-center opacity-70">
-                                <Building className="w-2.5 h-2.5 text-slate-400" />
+                              <div className="group relative w-8 h-8 flex items-center justify-center rounded bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors">
+                                <span className="text-xs font-bold">in</span>
+                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none">
+                                  LinkedIn
+                                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+                                </div>
                               </div>
 
                               {/* Indeed */}
-                              <div className="w-3 h-3 flex items-center justify-center opacity-70">
-                                <Briefcase className="w-2.5 h-2.5 text-slate-400" />
+                              <div className="group relative w-8 h-8 flex items-center justify-center rounded bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors">
+                                <span className="text-xs font-bold">ind</span>
+                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none">
+                                  Indeed
+                                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+                                </div>
                               </div>
 
                               {/* Glassdoor */}
-                              <div className="w-3 h-3 flex items-center justify-center opacity-70">
-                                <Globe className="w-2.5 h-2.5 text-slate-400" />
+                              <div className="group relative w-8 h-8 flex items-center justify-center rounded bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors">
+                                <span className="text-xs font-bold">gd</span>
+                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none">
+                                  Glassdoor
+                                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+                                </div>
                               </div>
 
                               {/* Monster */}
-                              <div className="w-3 h-3 flex items-center justify-center opacity-70">
-                                <Users className="w-2.5 h-2.5 text-slate-400" />
+                              <div className="group relative w-8 h-8 flex items-center justify-center rounded bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors">
+                                <span className="text-xs font-bold">M</span>
+                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none">
+                                  Monster
+                                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+                                </div>
                               </div>
 
                               {/* More */}
-                              <div className="w-3 h-3 flex items-center justify-center opacity-70">
-                                <Globe className="w-2.5 h-2.5 text-slate-400" />
+                              <div className="group relative w-8 h-8 flex items-center justify-center rounded bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors">
+                                <span className="text-xs font-bold">+</span>
+                                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap pointer-events-none">
+                                  More platforms
+                                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-slate-800 rotate-45"></div>
+                                </div>
                               </div>
                             </div>
                           </div>

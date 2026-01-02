@@ -107,3 +107,94 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Typewriter text effect for Input */
+@keyframes typewriter-input {
+  0% { width: 0; }
+  60% { width: 50ch; } /* Finish typing at 60% */
+  90% { width: 50ch; } /* Pause for 30% of animation */
+  100% { width: 0; } /* Reset to start */
+}
+
+/* Typewriter text effect for Textarea */
+@keyframes typewriter-textarea {
+  0% { width: 0; }
+  60% { width: 41ch; } /* Finish typing at 60% */
+  90% { width: 41ch; } /* Pause for 30% of animation */
+  100% { width: 0; } /* Reset to start */
+}
+
+/* Blinking cursor */
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #94a3b8; }
+}
+
+.typewriter-placeholder-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.typewriter-placeholder-container input {
+  font-family: monospace;
+  color: #0f172a; /* slate-900 for user input */
+}
+
+.typewriter-placeholder-text {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8; /* slate-400 */
+  font-family: monospace;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation:
+    typewriter-input 10s steps(50, end) infinite,
+    blink-caret 0.75s step-end infinite;
+  border-right: 2px solid #94a3b8; /* Cursor */
+  pointer-events: none;
+  background: transparent;
+  z-index: 10;
+}
+
+.typewriter-textarea-placeholder-text {
+  position: absolute;
+  left: 12px;
+  top: 0.75rem; /* py-2 = 0.5rem, plus a little adjustment */
+  color: #94a3b8; /* slate-400 */
+  font-family: monospace;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation:
+    typewriter-textarea 8s steps(41, end) infinite,
+    blink-caret 0.75s step-end infinite;
+  border-right: 2px solid #94a3b8; /* Cursor */
+  pointer-events: none;
+  background: transparent;
+  z-index: 10;
+}
+
+/* Hide the actual placeholder */
+.typewriter-placeholder-container input::placeholder,
+.typewriter-textarea-container textarea::placeholder {
+  color: transparent;
+}
+
+.typewriter-textarea-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.typewriter-textarea-container textarea {
+  font-family: monospace;
+  color: #0f172a; /* slate-900 for user input */
+}
