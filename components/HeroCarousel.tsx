@@ -31,7 +31,7 @@ const fadeInUp = {
 
 const transition = {
   duration: 0.5,
-  ease: 'easeInOut',
+  ease: 'easeInOut' as const,
 };
 
 export default function HeroCarousel() {
