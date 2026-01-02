@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 // Using Inter font for clean, professional look (similar to Geist)
@@ -52,6 +53,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-slate-50">
           {children}
         </div>
+        <Analytics />
       </body>
     </html>
   );

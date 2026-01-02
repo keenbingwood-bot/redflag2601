@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vercel Analytics</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .success {
+            color: #10b981;
+            font-weight: bold;
+        }
+        .warning {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        code {
+            background: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vercel Analytics Test</h1>
+
+    <div class="container">
+        <h2>Testing Steps:</h2>
+
+        <h3>1. Check if Analytics script is loaded</h3>
+        <p>Open browser Developer Tools (F12) and check:</p>
+        <ul>
+            <li>Network tab for <code>va.vercel-scripts.com</code> requests</li>
+            <li>Console for Analytics initialization messages</li>
+            <li>Elements tab for <code>&lt;script&gt;</code> tags with <code>va-vercel</code></li>
+        </ul>
+
+        <h3>2. Verify Analytics Configuration</h3>
+        <p>Check the following in your application:</p>
+        <ul>
+            <li><code>package.json</code> includes <code>"@vercel/analytics": "^1.6.1"</code></li>
+            <li><code>app/layout.tsx</code> imports <code>Analytics</code> from <code>"@vercel/analytics/next"</code></li>
+            <li><code>&lt;Analytics /&gt;</code> component is added to the layout</li>
+            <li>Build completes successfully</li>
+        </ul>
+
+        <h3>3. Production Deployment</h3>
+        <p>After deployment to Vercel:</p>
+        <ul>
+            <li>Visit your Vercel project dashboard</li>
+            <li>Go to Analytics tab</li>
+            <li>Check for incoming traffic data</li>
+            <li>Verify page views are being tracked</li>
+        </ul>
+
+        <h3>4. Expected Analytics Script</h3>
+        <p>The Analytics script should look like:</p>
+        <pre><code>&lt;script defer src="https://va.vercel-scripts.com/v1/script.js"&gt;&lt;/script&gt;</code></pre>
+
+        <h3>5. Testing Commands</h3>
+        <p>Run these commands to verify:</p>
+        <pre><code># Check if package is installed
+npm list @vercel/analytics
+
+# Test build
+npm run build
+
+# Check layout.tsx
+grep -n "Analytics" app/layout.tsx</code></pre>
+    </div>
+
+    <div class="container">
+        <h2>Current Status:</h2>
+        <p class="success">✅ @vercel/analytics package installed (v1.6.1)</p>
+        <p class="success">✅ Analytics component added to layout.tsx</p>
+        <p class="success">✅ Build completed successfully</p>
+        <p class="warning">⚠ Need to deploy to Vercel for full Analytics functionality</p>
+        <p class="warning">⚠ Analytics data will appear in Vercel dashboard after deployment</p>
+    </div>
+
+    <div class="container">
+        <h2>Next Steps:</h2>
+        <ol>
+            <li>Deploy to Vercel: <code>vercel --prod</code> or push to Git</li>
+            <li>Visit your deployed site</li>
+            <li>Check Vercel dashboard → Analytics tab</li>
+            <li>Monitor traffic and page views</li>
+            <li>Configure custom events if needed</li>
+        </ol>
+    </div>
+
+    <script>
+        // Simple script to check for Analytics
+        console.log('Vercel Analytics Test Page Loaded');
+
+        // Check for Analytics script after page loads
+        setTimeout(() => {
+            const analyticsScripts = Array.from(document.querySelectorAll('script'))
+                .filter(script => script.src.includes('va.vercel-scripts.com'));
+
+            if (analyticsScripts.length > 0) {
+                console.log('✅ Vercel Analytics script found:', analyticsScripts[0].src);
+                document.querySelector('.status-analytics').innerHTML =
+                    '<span class="success">✅ Vercel Analytics script detected</span>';
+            } else {
+                console.log('⚠ Vercel Analytics script not found on this page');
+                console.log('Note: Analytics script may only be injected in your Next.js app');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
