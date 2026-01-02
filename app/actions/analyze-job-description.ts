@@ -26,6 +26,18 @@ export async function analyzeJobDescription(formData: FormData) {
       try {
         jobDescriptionText = await scrapeUrlWithJina(validatedInput.input)
       } catch (error) {
+        // Special handling for protected URLs (LinkedIn, Indeed, etc.)
+        if (error instanceof Error && error.message === 'PROTECTED_URL') {
+          return {
+            success: false,
+            error: 'PROTECTED_URL',
+            message: 'LinkedIn/Indeed protects their data strictly. Please copy & paste the job description text manually.',
+            data: null,
+            databaseSaved: false,
+          }
+        }
+
+        // For other URL scraping errors
         throw new Error(`Failed to scrape URL: ${error instanceof Error ? error.message : 'Unknown error'}`)
       }
     } else {

@@ -17,6 +17,7 @@ import { getRandomSampleJD } from '@/lib/sample-jds'
 import { generateShareImage, downloadImage, getTopFlags } from '@/lib/share-utils'
 import { ShareCard } from '@/components/share-card'
 import { SocialShareCard } from '@/components/social-share-card'
+import HeroCarousel from '@/components/HeroCarousel'
 import html2canvas from 'html2canvas'
 
 type JobScanResult = {
@@ -41,6 +42,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<JobScanResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isProtectedUrlError, setIsProtectedUrlError] = useState(false)
 
   const handleAnalyze = async () => {
     const input = inputType === 'url' ? urlInput : textInput
@@ -52,6 +54,7 @@ export default function Home() {
 
     setIsLoading(true)
     setError(null)
+    setIsProtectedUrlError(false)
     setResult(null)
 
     try {
@@ -72,7 +75,27 @@ export default function Home() {
         }
         setResult(resultData)
       } else {
-        setError(response.error || 'Failed to analyze job description')
+        // Special handling for protected URLs
+        if (response.error === 'PROTECTED_URL') {
+          // Switch to text input tab
+          setInputType('text')
+          setIsProtectedUrlError(true)
+
+          // Show the protected URL message
+          setError(response.message || 'LinkedIn/Indeed protects their data strictly. Please copy & paste the job description text manually.')
+
+          // Focus the textarea for immediate pasting
+          setTimeout(() => {
+            const textarea = document.querySelector('textarea[name="text-input"]') as HTMLTextAreaElement
+            if (textarea) {
+              textarea.focus()
+              textarea.select()
+            }
+          }, 100)
+        } else {
+          setError(response.error || 'Failed to analyze job description')
+          setIsProtectedUrlError(false)
+        }
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred')
@@ -87,6 +110,7 @@ export default function Home() {
     setUrlInput('')
     setTextInput('')
     setError(null)
+    setIsProtectedUrlError(false)
   }
 
   const handleDownloadImage = async () => {
@@ -548,20 +572,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <img
-                  src="/favicon-24x24.png"
-                  alt="RedFlag.buzz"
-                  className="w-6 h-6"
-                />
-                <span className="text-sm font-medium text-slate-700">Job Description Risk Analysis</span>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
-                TL;DR for Job Descriptions
-              </h1>
-              <p className="text-lg text-slate-600">
-                Skip the corporate jargon. Decode hidden risks in seconds.
-              </p>
+              <HeroCarousel />
             </div>
 
             {result && (
@@ -645,6 +656,14 @@ export default function Home() {
                             )}
                           </div>
 
+                          {/* Helper text for protected sites */}
+                          <div className="text-amber-600 text-xs mt-2 flex items-start gap-1">
+                            <span>⚠️</span>
+                            <span>
+                              If the link fails, please use the 'Paste Text' tab for the best results.
+                            </span>
+                          </div>
+
                           {/* Supported Platforms - Subtle Trust Signals */}
                           <div className="pt-2 mt-3">
                             <div className="flex items-center justify-center gap-2">
@@ -700,13 +719,24 @@ export default function Home() {
 
                     {error && (
                       <div className={`mt-4 p-3 rounded-lg ${
-                        error.includes('✅')
-                          ? 'bg-green-50 border border-green-200'
-                          : 'bg-red-50 border border-red-200'
+                        isProtectedUrlError
+                          ? 'bg-amber-50 border border-amber-200'
+                          : error.includes('✅')
+                            ? 'bg-green-50 border border-green-200'
+                            : 'bg-red-50 border border-red-200'
                       }`}>
-                        <p className={`text-sm ${
-                          error.includes('✅') ? 'text-green-700' : 'text-red-700'
-                        }`}>{error}</p>
+                        <div className="flex items-start gap-2">
+                          {isProtectedUrlError && (
+                            <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                          )}
+                          <p className={`text-sm ${
+                            isProtectedUrlError
+                              ? 'text-amber-700'
+                              : error.includes('✅')
+                                ? 'text-green-700'
+                                : 'text-red-700'
+                          }`}>{error}</p>
+                        </div>
                       </div>
                     )}
 

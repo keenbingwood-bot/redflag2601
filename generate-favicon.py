@@ -26,23 +26,23 @@ def create_favicon_icon():
         # 计算缩放比例
         scale = min(width, height) / 64.0
 
-        # 绘制红色圆形背景
+        # 绘制黑色圆形背景
         circle_radius = int(28 * scale)
         circle_center = (width // 2, height // 2)
         draw.ellipse(
             [circle_center[0] - circle_radius, circle_center[1] - circle_radius,
              circle_center[0] + circle_radius, circle_center[1] + circle_radius],
-            fill=(220, 38, 38)  # #dc2626
+            fill=(0, 0, 0)  # #000000 黑色
         )
 
-        # 绘制白色三角旗
+        # 绘制红色三角旗
         # 计算三角旗的坐标（基于64x64画布的比例）
         flag_points = [
             (int(20 * scale), int(22 * scale)),  # 左上角
             (int(44 * scale), int(32 * scale)),  # 右上角/顶点
             (int(20 * scale), int(42 * scale))   # 左下角
         ]
-        draw.polygon(flag_points, fill=(255, 255, 255))  # 白色
+        draw.polygon(flag_points, fill=(220, 38, 38))  # #dc2626 红色
 
         # 绘制旗杆
         pole_width = max(1, int(3 * scale))
@@ -52,7 +52,7 @@ def create_favicon_icon():
         draw.rectangle(
             [pole_left, pole_top,
              pole_left + pole_width, pole_top + pole_height],
-            fill=(153, 27, 27)  # #991b1b
+            fill=(51, 51, 51)  # #333333 深灰色
         )
 
         images.append(img)
@@ -80,22 +80,22 @@ def create_png_favicons():
         # 计算缩放比例
         scale = min(width, height) / 64.0
 
-        # 绘制红色圆形背景
+        # 绘制黑色圆形背景
         circle_radius = int(28 * scale)
         circle_center = (width // 2, height // 2)
         draw.ellipse(
             [circle_center[0] - circle_radius, circle_center[1] - circle_radius,
              circle_center[0] + circle_radius, circle_center[1] + circle_radius],
-            fill=(220, 38, 38)  # #dc2626
+            fill=(0, 0, 0)  # #000000 黑色
         )
 
-        # 绘制白色三角旗
+        # 绘制红色三角旗
         flag_points = [
             (int(20 * scale), int(22 * scale)),
             (int(44 * scale), int(32 * scale)),
             (int(20 * scale), int(42 * scale))
         ]
-        draw.polygon(flag_points, fill=(255, 255, 255))
+        draw.polygon(flag_points, fill=(220, 38, 38))  # #dc2626 红色
 
         # 绘制旗杆
         pole_width = max(1, int(3 * scale))
@@ -105,7 +105,7 @@ def create_png_favicons():
         draw.rectangle(
             [pole_left, pole_top,
              pole_left + pole_width, pole_top + pole_height],
-            fill=(153, 27, 27)
+            fill=(51, 51, 51)  # #333333 深灰色
         )
 
         # 保存PNG文件
